@@ -31,6 +31,7 @@ class Worker {
 	}
 	
 	void proceed () {
+		System.out.println("proceed() родит.объект: " + this);
 		for (int i = 0; i < 2000; i++) {
 			partOne ();
 			partTwo ();
@@ -41,13 +42,13 @@ class Worker {
 		startTime = System.currentTimeMillis();
 		Thread t1 = new Thread (new Runnable () {
 			public void run() {
-				System.out.println(this);
+				System.out.println("t1 потока родит.объект: " + this);
 				proceed ();
 			}
 		});
 		Thread t2 = new Thread (new Runnable () {
 			public void run() {
-				System.out.println(this);
+				System.out.println("t2 потока родит.объект: " + this);
 				proceed ();
 			}
 		});
