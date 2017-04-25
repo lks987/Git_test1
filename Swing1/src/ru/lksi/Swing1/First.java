@@ -1,6 +1,10 @@
 package ru.lksi.Swing1;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class First {
 	static BufferedImage image;
@@ -16,6 +20,14 @@ public class First {
 
 	static void setImage(BufferedImage image) {
 		First.image = image;
+	}
+	
+	static void saveImage (File file, String format) {
+		try {
+			ImageIO.write(image, format, file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

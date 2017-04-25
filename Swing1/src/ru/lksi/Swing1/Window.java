@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 
@@ -40,10 +42,6 @@ public class Window extends JFrame {
 		JPanel panel2 = new JPanel ();
 		tabbedPane.addTab("Tab1", panel1);
 		panel1.setLayout(null);
-		
-		JButton btnGetFile = new JButton("Get File");
-		btnGetFile.setBounds(660, 11, 89, 23);
-		panel1.add(btnGetFile);
 		
 		JTextArea txtrEnterImageUrl = new JTextArea();
 		txtrEnterImageUrl.setFont(new Font("Monospaced", Font.PLAIN, 14));
@@ -83,10 +81,10 @@ public class Window extends JFrame {
 		JLabel lblImagelabel = new JLabel("");
 		panel.add(lblImagelabel);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBounds(667, 12, 82, 20);
 		comboBox.addItem("png");
-		comboBox.addItem("jpeg");
+		comboBox.addItem("jpg");
 		panel2.add(comboBox);
 		
 		JButton btnView = new JButton("View");
@@ -109,6 +107,24 @@ public class Window extends JFrame {
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmSaveImage = new JMenuItem("Save Image");
+		mntmSaveImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showSaveDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = chooser.getSelectedFile();
+					String filePath = file.getAbsolutePath();
+					if ((String) comboBox.getSelectedItem() == "png") {
+						file = new File (filePath + ".png");
+						First.saveImage(file, (String) comboBox.getSelectedItem());
+					}
+					if ((String) comboBox.getSelectedItem() == "jpg") {
+						file = new File (filePath + ".jpg");
+						First.saveImage(file, (String) comboBox.getSelectedItem());
+					}
+				}
+			}
+		});
 		mnFile.add(mntmSaveImage);
 		
 		JMenu mnOptions = new JMenu("Options");
@@ -117,12 +133,28 @@ public class Window extends JFrame {
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				System.exit(0);
 			}
 		});
 		mnOptions.add(mntmExit);
 		
-		
+		JButton btnGetFile = new JButton("Get File");
+		btnGetFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						First.image = ImageIO.read(chooser.getSelectedFile());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} 
+				}
+				
+			}
+		});
+		btnGetFile.setBounds(660, 11, 89, 23);
+		panel1.add(btnGetFile);
 		
 		setVisible (true);
 	}
