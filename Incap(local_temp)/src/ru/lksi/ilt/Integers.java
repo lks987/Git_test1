@@ -5,14 +5,19 @@ public class Integers implements Runnable {
 	private String num;
 	
 	public Integers() {
-		
+		isRunning = true;
+		num = "";
 	}
 
 	@Override
 	public void run() {
+		
 		while (isRunning) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {e.printStackTrace();}
 			if (!num.equals("")) {
-				System.out.println("<Integer> catch it! Your integer value is: " + Integer.parseInt(num));
+				System.out.println("\n<Integer> catch it! Your integer value is: " + Integer.parseInt(num) + "\n");
 				num = "";
 			}
 		}

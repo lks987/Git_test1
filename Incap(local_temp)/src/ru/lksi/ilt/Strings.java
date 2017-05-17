@@ -5,14 +5,19 @@ public class Strings implements Runnable {
 	private String word;
 	
 	public Strings() {
-		
+		isRunning = true;
+		word = "";
 	}
 
 	@Override
 	public void run() {
+		
 		while (isRunning) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {e.printStackTrace();}
 			if (!word.equals("")) {
-				System.out.println("<Integer> catch it! Your integer value is: " + word);
+				System.out.println("\n<String> catch it! Your integer value is: " + word + "\n");
 				word = "";
 			}
 		}
