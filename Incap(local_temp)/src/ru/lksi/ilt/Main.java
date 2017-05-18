@@ -17,7 +17,7 @@ public class Main {
 		str1 = new Strings ();
 		ar = new Autorev ();
 		isRunning = true;
-		scn1 = new Scanner (System.in);
+		//scn1 = new Scanner (System.in);
 		tint = new Thread (int1);
 		tstr = new Thread (str1);
 		tint.start ();
@@ -25,6 +25,7 @@ public class Main {
 		System.out.println("**********************************\n");
 		System.out.println("For help input /help\n");
 		while (isRunning) {
+			scn1 = new Scanner (System.in);
 			System.out.print("Enter command: ");
 			processCommand (scn1.next());
 		}
@@ -48,6 +49,10 @@ public class Main {
 			System.out.println("/exit - close programm and bye-bye\n");
 			break;
 		case "/int":
+			if (!tint.isAlive()) {
+				System.out.println("\nProcess Integer is dead.\n");
+				return;
+			}
 			int1.setNum(scn1.next());
 			try {
 				Thread.sleep(100);
